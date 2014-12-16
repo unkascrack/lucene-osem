@@ -140,9 +140,31 @@ Bibliografía/Links
     ActiveObjects https://activeobjects.java.net/0.8.2/
     ElasticSearch-OSEM https://github.com/kzwang/elasticsearch-osem
 
-Un saludo,
-Carlos Alonso González Este correo electrónico y, en su caso, cualquier fichero anexo al mismo, contiene información de carácter confidencial exclusivamente dirigida a su destinatario o destinatarios. Si no es vd. el destinatario indicado, queda notificado que la lectura, utilización, divulgación y/o copia sin autorización está prohibida en virtud de la legislación vigente. En el caso de haber recibido este correo electrónico por error, se ruega notificar inmediatamente esta circunstancia mediante reenvío a la dirección electrónica del remitente.
-Evite imprimir este mensaje si no es estrictamente necesario.
 
-This email and any file attached to it (when applicable) contain(s) confidential information that is exclusively addressed to its recipient(s). If you are not the indicated recipient, you are informed that reading, using, disseminating and/or copying it without authorisation is forbidden in accordance with the legislation in effect. If you have received this email by mistake, please immediately notify the sender of the situation by resending it to their email address.
-Avoid printing this message if it is not absolutely necessary.
+NOTAS:
+
+Create Mapping:
+
+    Client client = nodeBuilder().node().client();
+    ElasticSearchIndexer indexer = new ElasticSearchIndexer(client, indexName);
+    indexer.createMapping(Tweet.class);
+
+Index Object:
+
+    Tweet tweet = new Tweet();
+    ...
+    indexer.index(tweet);
+
+Delete Object:
+
+    Tweet tweet = ...;
+    indexer.delete(tweet);
+
+Get Object from index:
+
+    ElasticSearchSearcher searcher = new ElasticSearchSearcherImpl(client, indexName);
+    Tweet tweet = searcher.getById(Tweet.class, tweet.getId().toString());
+
+Search Object:
+
+    List<Tweet> searchResult = searcher.search(Tweet.class, QueryBuilders.matchAllQuery(),
