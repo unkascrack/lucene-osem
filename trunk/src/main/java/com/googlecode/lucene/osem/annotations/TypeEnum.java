@@ -1,11 +1,11 @@
 package com.googlecode.lucene.osem.annotations;
 
-public enum Type {
+public enum TypeEnum {
 
     /**
-     * 
+     * Auto detect field type
      */
-    NA,
+    AUTO,
     /**
      * 
      */
@@ -34,9 +34,15 @@ public enum Type {
      * 
      */
     BYTE_DOC,
+
+    // TODO: revisar estos tipos
     /**
      * 
      */
-    DATE;
+    DATE,
+    /**
+     * 
+     */
+    BOOLEAN;
 
 }
