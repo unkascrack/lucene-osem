@@ -1,47 +1,67 @@
 package com.googlecode.lucene.osem.config;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.io.PrintStream;
 
-import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.util.InfoStream;
+import org.apache.lucene.util.PrintStreamInfoStream;
+import org.apache.lucene.util.Version;
 
-public class LuceneOsemSettings {
+/**
+ * @author carlos
+ * 
+ */
+public final class LuceneOsemSettings {
 
-    private final Map<String, Object> settings;
+    private final Version version;
+    private final Analyzer analyzer;
+    private InfoStream infoStream;
 
-    public LuceneOsemSettings() {
-        settings = new ConcurrentHashMap<String, Object>();
+    public LuceneOsemSettings(final Version version, final Analyzer analyzer) {
+        this.version = version;
+        this.analyzer = analyzer;
     }
 
-    // default lucene version
+    public Analyzer getAnalyzer() {
+        return analyzer;
+    }
 
-    // default analyzer
-
-    // default open mode
-
-    // public IndexWriterConfig setInfoStream(PrintStream printStream)
+    public Version getVersion() {
+        return version;
+    }
 
     /**
-     * Specifies the open mode for {@link IndexWriter}.
+     * Information about merges, deletes and a
+     * message when maxFieldLength is reached will be printed
+     * to this. Must not be null, but {@link InfoStream#NO_OUTPUT} may be used to supress output.
      */
-    public static enum OpenMode {
-        /**
-         * Creates a new index or overwrites an existing one.
-         */
-        CREATE,
-
-        /**
-         * Opens an existing index.
-         */
-        APPEND,
-
-        /**
-         * Creates a new index if one does not exist,
-         * otherwise it opens the index and documents will be appended.
-         */
-        CREATE_OR_APPEND
+    public LuceneOsemSettings setInfoStream(final InfoStream infoStream) {
+        this.infoStream = infoStream;
+        return this;
     }
 
-    // IndexWriterConfig cfg = new IndexWriterConfig(matchVersion, analyzer)
-    // IndexWriter i = new IndexWriter(Directory, IndexWriterConfig)
+    /**
+     * Convenience method that uses {@link PrintStreamInfoStream}. Must not be null.
+     */
+    public LuceneOsemSettings setInfoStream(final PrintStream printStream) {
+        infoStream = new PrintStreamInfoStream(printStream);
+        return this;
+    }
+
+    public InfoStream getInfoStream() {
+        return infoStream;
+    }
+
+    // TODO: include??
+    // config.getMergeScheduler();
+    // config.getCodec();
+    // config.getReaderPooling();
+    // config.getWriteLockTimeout()
+    // config.getIndexCommit()
+    // config.getFlushPolicy()
+    // config.getIndexDeletionPolicy()
+    // config.getTermIndexInterval()
+    // config.getCheckIntegrityAtMerge()
+    // config.getMergePolicy()
+    // config.getMergedSegmentWarmer()
 }
