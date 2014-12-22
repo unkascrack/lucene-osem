@@ -2,7 +2,7 @@ package com.googlecode.lucene.osem;
 
 import java.util.List;
 
-interface IndexManager {
+public interface IndexManager {
 
     /**
      * Get current index name
