@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.InfoStream;
 import org.apache.lucene.util.PrintStreamInfoStream;
 import org.apache.lucene.util.Version;
@@ -17,18 +18,37 @@ import org.apache.lucene.util.Version;
 public class IndexSettings {
 
     private final String name;
+    private final Directory directory;
     private Version version;
     private Analyzer analyzer;
     private OpenMode openMode = OpenMode.CREATE_OR_APPEND;
     private InfoStream infoStream;
     private final Set<Class<?>> mappings = new HashSet<Class<?>>();
 
-    public IndexSettings(final String name) {
+    // TODO: include??
+    // config.getMergeScheduler();
+    // config.getCodec();
+    // config.getReaderPooling();
+    // config.getWriteLockTimeout()
+    // config.getIndexCommit()
+    // config.getFlushPolicy()
+    // config.getIndexDeletionPolicy()
+    // config.getTermIndexInterval()
+    // config.getCheckIntegrityAtMerge()
+    // config.getMergePolicy()
+    // config.getMergedSegmentWarmer()
+
+    public IndexSettings(final String name, final Directory directory) {
         this.name = name;
+        this.directory = directory;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Directory getDirectory() {
+        return directory;
     }
 
     public IndexSettings setVersion(final Version version) {
@@ -75,8 +95,13 @@ public class IndexSettings {
         return infoStream;
     }
 
-    public IndexSettings addClass(final Class<?> indexableClass) {
+    public IndexSettings addMappingClass(final Class<?> indexableClass) {
         mappings.add(indexableClass);
+        return this;
+    }
+
+    public IndexSettings clearMappingClass() {
+        mappings.clear();
         return this;
     }
 
@@ -109,18 +134,4 @@ public class IndexSettings {
         }
         return true;
     }
-
-    // TODO: include??
-    // config.getMergeScheduler();
-    // config.getCodec();
-    // config.getReaderPooling();
-    // config.getWriteLockTimeout()
-    // config.getIndexCommit()
-    // config.getFlushPolicy()
-    // config.getIndexDeletionPolicy()
-    // config.getTermIndexInterval()
-    // config.getCheckIntegrityAtMerge()
-    // config.getMergePolicy()
-    // config.getMergedSegmentWarmer()
-
 }
