@@ -20,10 +20,22 @@ public final class LuceneOsemSettings {
     private final Version version;
     private final Analyzer analyzer;
     private InfoStream infoStream;
-    private final Collection<IndexSettings> indexSettingsCollection;
+    private final Collection<IndexSettings> indexSettingsCollection = new HashSet<IndexSettings>();
+
+    // TODO: include??
+    // config.getMergeScheduler();
+    // config.getCodec();
+    // config.getReaderPooling();
+    // config.getWriteLockTimeout()
+    // config.getIndexCommit()
+    // config.getFlushPolicy()
+    // config.getIndexDeletionPolicy()
+    // config.getTermIndexInterval()
+    // config.getCheckIntegrityAtMerge()
+    // config.getMergePolicy()
+    // config.getMergedSegmentWarmer()
 
     public LuceneOsemSettings(final Version version, final Analyzer analyzer) {
-        indexSettingsCollection = new HashSet<IndexSettings>();
         this.version = version;
         this.analyzer = analyzer;
     }
@@ -72,17 +84,4 @@ public final class LuceneOsemSettings {
     public LuceneOsemManager build() {
         return null;
     }
-
-    // TODO: include??
-    // config.getMergeScheduler();
-    // config.getCodec();
-    // config.getReaderPooling();
-    // config.getWriteLockTimeout()
-    // config.getIndexCommit()
-    // config.getFlushPolicy()
-    // config.getIndexDeletionPolicy()
-    // config.getTermIndexInterval()
-    // config.getCheckIntegrityAtMerge()
-    // config.getMergePolicy()
-    // config.getMergedSegmentWarmer()
 }
